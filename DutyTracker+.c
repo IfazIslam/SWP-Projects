@@ -5,6 +5,92 @@
 #include <unistd.h>
 #include <string.h>
 
+int getTime();
+int randomNumberGenerator(int max, int min);
+void randomInspiration();
+void mainLogo();
+void selective_menu(int *options, char *items[], int numItems, char *menuName);
+void homePage(int *option);
+void studyTracker();
+void studyTrackerData();
+void resetTrackerData();
+void TrackerDataHistory();
+void studyTrackerMenu(int *option);
+void allTasks();
+void addTasks();
+void resetTasks();
+void completedTasks();
+void Tasks(int *option);
+void addEvent();
+void showEvent();
+void clearEvents();
+int GetStartingDay(int year);
+void Calender(int *option);
+void mindTwisterQuestions(int maxValue, int minValue);
+void progress();
+void MindTwister(int *option);
+
+// main function
+int main()
+{
+    // for random number generator
+    srand(time(NULL));
+
+    // logo
+    // system("color OA"); // For seeing color Presets
+    mainLogo();
+    randomInspiration();
+    printf("Press Enter To start (any other key to exit)...");
+    char inputMainLogo;
+    inputMainLogo = getch();
+
+    int Option; // For selecting in the main menu
+    if (inputMainLogo == 'q')
+    {
+        printf("\nExit...");
+        return 0;
+    }
+    if (inputMainLogo == '\r')
+    {
+        // Main Menu
+        homePage(&Option);
+    }
+
+    // Option Page
+    while (1)
+    {
+
+        switch (Option)
+        {
+        case 0:
+            studyTrackerMenu(&Option);
+            break;
+
+        case 1:
+            Tasks(&Option);
+            break;
+
+        case 2:
+            Calender(&Option);
+            break;
+
+        case 3:
+            MindTwister(&Option);
+            break;
+
+        default:
+            break;
+        }
+
+        if (Option == 3)
+        {
+            homePage(&Option);
+        }
+    }
+
+    return 0;
+}
+
 // Time Function
 int getTime()
 {
@@ -21,53 +107,21 @@ int randomNumberGenerator(int max, int min)
 
 void randomInspiration()
 {
-    int select = randomNumberGenerator(10, 1);
+    int select = randomNumberGenerator(9, 0);
 
-    switch (select)
-    {
-    case 1:
-        printf("\"Success is the sum of small efforts, repeated day in and day out.\"\n");
-        break;
-    case 2:
-        printf("\"Believe you can, and you're halfway there. - Theodore Roosevelt\"\n");
+    char *quotes[] = {
+        "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful. - Albert Schweitzer\"",
+        "\"Believe you can and you're halfway there. - Theodore Roosevelt\"",
+        "\"In the middle of every difficulty lies opportunity. - Albert Einstein\"",
+        "\"Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill\"",
+        "\"The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt\"",
+        "\"The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt\"",
+        "\"You miss 100% of the shots you don't take. - Wayne Gretzky\"",
+        "\"It does not matter how slowly you go as long as you do not stop. - Confucius\"",
+        "\"The only person you should try to be better than is the person you were yesterday. - Anonymous\"",
+        "\"The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela\""};
 
-        break;
-    case 3:
-        printf("\"The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt\"\n");
-
-        break;
-    case 4:
-        printf("\"Education is the passport to the future, for tomorrow belongs to those who prepare for it today. - Malcolm X\"\n");
-
-        break;
-    case 5:
-        printf("\"The only way to do great work is to love what you do. - Steve Jobs\"\n");
-
-        break;
-    case 6:
-        printf("\"Education is not the filling of a pail but the lighting of a fire. - William Butler Yeats\"\n");
-
-        break;
-    case 7:
-        printf("\"Your education is a passport to the future; it's up to you how far you'll go.\"\n");
-
-        break;
-    case 8:
-        printf("\"Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill\"\n");
-
-        break;
-    case 9:
-        printf("\"Education is the key to unlocking your potential and shaping a brighter future.\"\n");
-
-        break;
-    case 10:
-        printf("\"Dream big, work hard, stay focused, and surround yourself with positivity.\"\n");
-
-        break;
-
-    default:
-        break;
-    }
+    printf("%s\n\n", quotes[select]);
 }
 
 void mainLogo()
@@ -96,7 +150,7 @@ void selective_menu(int *options, char *items[], int numItems, char *menuName)
     while (1)
     {
         system("cls");
-        system("color 37");
+        system("color 30");
 
         printf("\n|  ---- %s -----  |\n\nUse UP, DOWN & ENTER key to select.\n\n", menuName);
         printf("************************************\n");
@@ -162,7 +216,7 @@ void homePage(int *option)
 void studyTracker()
 {
     system("cls");
-    system("color CF");
+    system("color 4F");
     time_t currentTime = time(NULL);
     struct tm *localTime = localtime(&currentTime);
 
@@ -182,55 +236,66 @@ void studyTracker()
     printf("Enter Seconds: ");
     scanf("%d", &sec);
 
-    getchar();
-
-    printf("Enter Label: ");
-    gets(LabelName);
-
-    while (1)
+    if (sec >= 5)
     {
-        system("cls");
 
-        printf("%d : %d : %d", defaultHr, defaultMin, defaultSec);
-        defaultSec++;
-        if (defaultSec == 60)
+        getchar();
+
+        printf("Enter Label: ");
+        gets(LabelName);
+
+        while (1)
         {
-            defaultMin++;
-            defaultSec = 0;
+            system("cls");
 
-            if (defaultMin == 60)
+            printf("%d : %d : %d", defaultHr, defaultMin, defaultSec);
+            defaultSec++;
+            if (defaultSec == 60)
             {
-                defaultHr++;
-                defaultMin = 0;
-                if (defaultHr == 60)
+                defaultMin++;
+                defaultSec = 0;
+
+                if (defaultMin == 60)
                 {
-                    defaultHr = 0;
+                    defaultHr++;
+                    defaultMin = 0;
+                    if (defaultHr == 60)
+                    {
+                        defaultHr = 0;
+                    }
                 }
             }
+            sleep(1);
+            if (hr == defaultHr && min == defaultMin && sec == defaultSec)
+            {
+
+                system("cls");
+                printf("Tracking Complete.\a\n"); // \a for a beep sound while executing
+
+                FILE *trackerData, *trackerHistory;
+
+                trackerData = fopen("studyTracker.txt", "a");
+                trackerHistory = fopen("trackerHistory.txt", "a");
+
+                fprintf(trackerData, "Subject: %s -> Time: %02d:%02d:%02d, Date: %02d/%02d/%d | %02d:%02d:%02d \n", LabelName, hr, min, sec, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+
+                fprintf(trackerHistory, "Subject: %s -> Time: %02d:%02d:%02d, Date: %02d/%02d/%d | %02d:%02d:%02d \n", LabelName, hr, min, sec, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+
+                fclose(trackerData);
+                fclose(trackerHistory);
+
+                printf("Press any key to continue...");
+                getch();
+                break;
+            }
         }
-        sleep(1);
-        if (hr == defaultHr && min == defaultMin && sec == defaultSec)
-        {
-
-            system("cls");
-            printf("Tracking Complete.\a\n"); // \a for a beep sound while executing
-
-            FILE *trackerData, *trackerHistory;
-
-            trackerData = fopen("studyTracker.txt", "a");
-            trackerHistory = fopen("trackerHistory.txt", "a");
-
-            fprintf(trackerData, "Subject: %s -> Time: %02d:%02d:%02d, Date: %02d/%02d/%d | %02d:%02d:%02d \n", LabelName, hr, min, sec, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
-
-            fprintf(trackerHistory, "Subject: %s -> Time: %02d:%02d:%02d, Date: %02d/%02d/%d | %02d:%02d:%02d \n", LabelName, hr, min, sec, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
-
-            fclose(trackerData);
-            fclose(trackerHistory);
-
-            printf("Press any key to continue...");
-            getch();
-            break;
-        }
+    }
+    else
+    {
+        printf("Too short time. (at least 5 sec needed.)\n");
+        printf("Press any key for return...\n");
+        getch();
+        studyTracker();
     }
 }
 void studyTrackerData()
@@ -678,65 +743,5 @@ void MindTwister(int *option)
     {
         *option = 3;
     }
-}
-// main function
-int main()
-{
-    // for random number generator
-    srand(time(NULL));
-
-    // logo
-    // system("color OA"); // For seeing color Presets
-    mainLogo();
-    randomInspiration();
-    printf("Press Enter To start (any other key to exit)...");
-    char inputMainLogo;
-    inputMainLogo = getch();
-
-    int Option; // For selecting in the main menu
-    if (inputMainLogo == 'q')
-    {
-        printf("\nExit...");
-        return 0;
-    }
-    if (inputMainLogo == '\r')
-    {
-        // Main Menu
-        homePage(&Option);
-    }
-
-    // Option Page
-    while (1)
-    {
-
-        switch (Option)
-        {
-        case 0:
-            studyTrackerMenu(&Option);
-            break;
-
-        case 1:
-            Tasks(&Option);
-            break;
-
-        case 2:
-            Calender(&Option);
-            break;
-
-        case 3:
-            MindTwister(&Option);
-            break;
-
-        default:
-            break;
-        }
-
-        if (Option == 3)
-        {
-            homePage(&Option);
-        }
-    }
-
-    return 0;
 }
 // complete
