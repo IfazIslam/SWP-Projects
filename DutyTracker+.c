@@ -382,9 +382,6 @@ void studyTrackerMenu(int *option)
     }
 }
 // ------------------------ Task ----------------------
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
 
 void allTasks()
 {
