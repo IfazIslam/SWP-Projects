@@ -237,11 +237,10 @@ void studyTracker()
 
     printf("Enter Seconds: ");
     scanf("%d", &sec);
+    getchar();
 
     if (sec >= 5)
     {
-
-        getchar();
 
         printf("Enter Label: ");
         gets(LabelName);
@@ -495,7 +494,6 @@ void Tasks(int *option)
 }
 
 // ------------------ Even & calander --------------------------
-
 void addEvent()
 {
     system("cls");
@@ -504,7 +502,7 @@ void addEvent()
     int eventDate, eventYear, eventMonth;
 
     printf("Event Name: ");
-    scanf("%[^\n]", eventName);
+    scanf(" %[^\n]", eventName);
 
     printf("Event Date: ");
     scanf("%2d", &eventDate);
@@ -513,9 +511,12 @@ void addEvent()
     printf("Event Year: ");
     scanf("%d", &eventYear);
 
+    fflush(stdin); // Clearing the input buffer before opening the file
+
     FILE *eventData;
 
     eventData = fopen("eventData.txt", "a");
+
     fprintf(eventData, "Name: %s, %2d/%2d/%d\n", eventName, eventDate, eventMonth, eventYear);
     fclose(eventData);
 }
