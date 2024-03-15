@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-//update 1.2
+//update 1.3
 // prototypes
 int getTime();
 int randomNumberGenerator(int max, int min);
@@ -381,9 +381,6 @@ void studyTrackerMenu(int *option)
     }
 }
 // ------------------------ Task Part ----------------------
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
 
 void allTasks()
 {
@@ -495,9 +492,10 @@ void Tasks(int *option)
 void addEvent()
 {
     system("cls");
+
     printf(" |  ----     Add Events      -----  |\n");
     char eventName[50];
-    int eventDate, eventYear, eventMonth;
+    int eventDate = 0, eventYear = 0, eventMonth = 0;
 
     printf("Event Name: ");
     scanf(" %[^\n]", eventName);
@@ -509,14 +507,16 @@ void addEvent()
     printf("Event Year: ");
     scanf("%d", &eventYear);
 
-    fflush(stdin); // Clearing the input buffer before opening the file
+    fflush(stdin);
 
     FILE *eventData;
-
     eventData = fopen("eventData.txt", "a");
 
     fprintf(eventData, "Name: %s, %d/%d/%d\n", eventName, eventDate, eventMonth, eventYear);
     fclose(eventData);
+
+    printf("Data saved successfully!\n");
+    getchar();
 }
 void showEvent()
 {
