@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-
+//update 1.2
 // prototypes
 int getTime();
 int randomNumberGenerator(int max, int min);
@@ -224,7 +224,7 @@ void studyTracker()
 
     printf("------------- Study tracker is selected -------------\n");
 
-    int hr, min, sec;
+    int hr = 0, min = 0, sec = 0;
     int defaultHr = 0, defaultMin = 0, defaultSec = 0;
 
     char LabelName[100];
@@ -241,7 +241,6 @@ void studyTracker()
 
     if (sec >= 5)
     {
-
         printf("Enter Label: ");
         gets(LabelName);
 
@@ -269,7 +268,6 @@ void studyTracker()
             sleep(1);
             if (hr == defaultHr && min == defaultMin && sec == defaultSec)
             {
-
                 system("cls");
                 printf("Tracking Complete.\a\n"); // \a for a beep sound while executing
 
@@ -505,9 +503,9 @@ void addEvent()
     scanf(" %[^\n]", eventName);
 
     printf("Event Date: ");
-    scanf("%2d", &eventDate);
+    scanf("%d", &eventDate);
     printf("Event Month: ");
-    scanf("%2d", &eventMonth);
+    scanf("%d", &eventMonth);
     printf("Event Year: ");
     scanf("%d", &eventYear);
 
@@ -517,7 +515,7 @@ void addEvent()
 
     eventData = fopen("eventData.txt", "a");
 
-    fprintf(eventData, "Name: %s, %2d/%2d/%d\n", eventName, eventDate, eventMonth, eventYear);
+    fprintf(eventData, "Name: %s, %d/%d/%d\n", eventName, eventDate, eventMonth, eventYear);
     fclose(eventData);
 }
 void showEvent()
