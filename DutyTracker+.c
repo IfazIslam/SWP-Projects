@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
+// prototypes
 int getTime();
 int randomNumberGenerator(int max, int min);
 void randomInspiration();
@@ -37,7 +38,6 @@ int main()
     srand(time(NULL));
 
     // logo
-    // system("color OA"); // For seeing color Presets
     mainLogo();
     randomInspiration();
     printf("Press Enter To start (any other key to exit)...");
@@ -124,6 +124,7 @@ void randomInspiration()
     printf("%s\n\n", quotes[select]);
 }
 
+// logo function
 void mainLogo()
 {
     system("cls");
@@ -140,6 +141,7 @@ void mainLogo()
     printf("\n");
 }
 
+// selective code base
 void selective_menu(int *options, char *items[], int numItems, char *menuName)
 {
     char designBar[] = "***********************************";
@@ -211,7 +213,7 @@ void homePage(int *option)
         exit(0);
     }
 }
-//------------------------------------------------------------
+//-------------------------- Study Tracker Part----------------------------------
 
 void studyTracker()
 {
@@ -381,7 +383,10 @@ void studyTrackerMenu(int *option)
         }
     }
 }
-// ------------------------ Task ----------------------
+// ------------------------ Task Part ----------------------
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
 
 void allTasks()
 {
