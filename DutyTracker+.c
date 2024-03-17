@@ -4,7 +4,18 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-//update 1.3
+
+// version 2.0
+
+// Define ANSI escape codes for text colors
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_YELLOW "\x1b[33m"
+#define ANSI_COLOR_BLUE "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN "\x1b[36m"
+#define ANSI_COLOR_RESET "\x1b[0m"
+
 // prototypes
 int getTime();
 int randomNumberGenerator(int max, int min);
@@ -30,6 +41,7 @@ void Calender(int *option);
 void mindTwisterQuestions(int maxValue, int minValue);
 void progress();
 void MindTwister(int *option);
+void deleteLine(char *filename, int lineToDelete);
 
 // main function
 int main()
@@ -40,7 +52,7 @@ int main()
     // logo
     mainLogo();
     randomInspiration();
-    printf("Press Enter To start (any other key to exit)...");
+    printf(ANSI_COLOR_RESET "Press Enter To start (any other key to exit)...");
     char inputMainLogo;
     inputMainLogo = getch();
 
@@ -128,17 +140,18 @@ void randomInspiration()
 void mainLogo()
 {
     system("cls");
+    system("color 09");
     printf("\n");
     printf("----- Welcome To -----");
     printf("\n");
     printf("\n");
     printf("  _____    _    _  _____  __   __    _____  _____      __       _______    _   _     _____   _____        _\n");
     printf(" |  __ \\  | |  | ||_   _| \\ \\ / /   |_   _||  __ \\    /  \\    /  _______\\ | | / /   | ____| |  __ \\      | |\n");
-    printf(" | |  | | | |  | |  | |    \\ V /      | |  | |__) |  / /\\ \\  /  /         | |/ /    | |__   | |__) | ____| |____\n");
+    printf(" | |  | | | |  | |  | |    \\ V /      | |  | |__) |  / /\\ \\  /  /         | |/ /    | |__   | |__) | ____| |____\n" ANSI_COLOR_CYAN);
     printf(" | |  | | | |  | |  | |     | |       | |  |  _  /  / /__\\ \\ \\  \\         | |\\ \\    |  __|  |  _  / |____   ____|\n");
-    printf(" | |__| | | |__| |  | |     | |       | |  | | \\ \\ / /____\\ \\ \\  \\_____/\\ | | \\ \\   | |___  | | \\ \\      | |\n");
+    printf(" | |__| | | |__| |  | |     | |       | |  | | \\ \\ / /____\\ \\ \\  \\_____/\\ | | \\ \\   | |___  | | \\ \\      | |\n" ANSI_COLOR_CYAN);
     printf(" |_____/   \\____/   |_|     |_|       |_|  |_|  \\_\\\\/      \\/   \\_______/ |_|  \\_\\  |_____| |_|  \\_\\     |_|\n");
-    printf("\n");
+    printf("\n" ANSI_COLOR_YELLOW);
 }
 
 // selective code base
@@ -152,9 +165,8 @@ void selective_menu(int *options, char *items[], int numItems, char *menuName)
     while (1)
     {
         system("cls");
-        system("color 30");
 
-        printf("\n|  ---- %s -----  |\n\nUse UP, DOWN & ENTER key to select.\n\n", menuName);
+        printf(ANSI_COLOR_RESET "\n|  ---- %s -----  |\n\nUse UP, DOWN & ENTER key to select.\n\n", menuName);
         printf("************************************\n");
 
         for (int i = 0; i < numItems; i++)
@@ -201,7 +213,7 @@ void homePage(int *option)
 {
     char menuName[] = "Home Page";
     int numItems = 5;
-    char *mainMenuItems[5] = {"1. StudyTracker", "2. Tasks", "3. Calendar", "4. MindTwister", "5. Exit"};
+    char *mainMenuItems[5] = {ANSI_COLOR_BLUE "1. StudyTracker", ANSI_COLOR_CYAN "2. Tasks", ANSI_COLOR_GREEN "3. Calendar", ANSI_COLOR_MAGENTA "4. MindTwister", ANSI_COLOR_RED "5. Exit" ANSI_COLOR_RESET};
 
     int selectedOption;
 
@@ -218,7 +230,6 @@ void homePage(int *option)
 void studyTracker()
 {
     system("cls");
-    system("color 4F");
     time_t currentTime = time(NULL);
     struct tm *localTime = localtime(&currentTime);
 
@@ -229,7 +240,7 @@ void studyTracker()
 
     char LabelName[100];
 
-    printf("Enter Hour: ");
+    printf(ANSI_COLOR_CYAN "Enter Hour: ");
     scanf("%d", &hr);
 
     printf("Enter Minute: ");
@@ -248,7 +259,7 @@ void studyTracker()
         {
             system("cls");
 
-            printf("%d : %d : %d", defaultHr, defaultMin, defaultSec);
+            printf("%d : %d : %d" ANSI_COLOR_RESET, defaultHr, defaultMin, defaultSec);
             defaultSec++;
             if (defaultSec == 60)
             {
@@ -308,7 +319,7 @@ void studyTrackerData()
 
     while ((trackerData = fgetc(timeTracker)) != EOF)
     {
-        printf("%c", trackerData);
+        printf(ANSI_COLOR_CYAN "%c" ANSI_COLOR_RESET, trackerData);
     }
     fclose(timeTracker);
     printf("\nPress any key to continue...");
@@ -332,7 +343,7 @@ void TrackerDataHistory()
 
     while ((data = fgetc(dataHistory)) != EOF)
     {
-        printf("%c", data);
+        printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, data);
     }
     fclose(dataHistory);
 
@@ -342,9 +353,9 @@ void TrackerDataHistory()
 
 void studyTrackerMenu(int *option)
 {
-    char menuName[] = "Study Tracker";
+    char menuName[] = ANSI_COLOR_RESET "Study Tracker";
     int numItems = 5;
-    char *mainMenuItems[5] = {"1. Track Study", "2. Tracking Data", "3. Reset Tracking Data", "4. History", "5. Home Page"};
+    char *mainMenuItems[5] = {ANSI_COLOR_CYAN "1. Track Study", ANSI_COLOR_GREEN "2. Tracking Data", ANSI_COLOR_MAGENTA "3. Reset Tracking Data", ANSI_COLOR_BLUE "4. History", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
 
     int optionValue;
     selective_menu(&optionValue, mainMenuItems, numItems, menuName);
@@ -382,6 +393,67 @@ void studyTrackerMenu(int *option)
 }
 // ------------------------ Task Part ----------------------
 
+void deleteLine(char *filename, int lineToDelete)
+{
+    FILE *originalFile, *tempFile, *deletedLinesFile;
+    char buffer[1000]; // Adjust buffer size as needed
+    int lineNum = 0;
+
+    // Open the original file for reading
+    originalFile = fopen(filename, "r");
+
+    // Open a temporary file for writing
+    tempFile = fopen("temp.txt", "w");
+
+    // Open a file to store deleted lines
+    deletedLinesFile = fopen("completedTask.txt", "a");
+
+    if (deletedLinesFile == NULL)
+    {
+        printf("Error: Unable to create deleted lines file.\n");
+        fclose(originalFile);
+        fclose(tempFile);
+        return;
+    }
+
+    // Read the original file line by line and skip the line to delete
+    while (fgets(buffer, sizeof(buffer), originalFile) != NULL)
+    {
+        lineNum++;
+        if (lineNum == lineToDelete)
+        {
+            // Write the deleted line to the file storing deleted lines
+            fprintf(deletedLinesFile, "%s\n", buffer);
+        }
+        else
+        {
+            // Write all other lines to the temporary file
+            fputs(buffer, tempFile);
+        }
+    }
+
+    // Close the files
+    fclose(originalFile);
+    fclose(tempFile);
+    fclose(deletedLinesFile); // Close the file storing deleted lines
+
+    // Remove the original file
+    if (remove(filename) != 0)
+    {
+        printf("Error: Unable to delete original file.\n");
+        return;
+    }
+
+    // Rename the temporary file to the original filename
+    if (rename("temp.txt", filename) != 0)
+    {
+        printf("Error: Unable to rename temporary file.\n");
+        return;
+    }
+
+    printf("Line %d deleted successfully.\n", lineToDelete);
+}
+
 void allTasks()
 {
     system("cls");
@@ -393,11 +465,21 @@ void allTasks()
 
     while ((tasksData = fgetc(tasks)) != EOF)
     {
-        printf("%c", tasksData);
+        printf(ANSI_COLOR_CYAN "%c" ANSI_COLOR_RESET, tasksData);
     }
     fclose(tasks);
 
-    printf("\nPress any key to continue...");
+    printf("\nPress tasks number to complete tasks(0 to return)...\n");
+    int input;
+    scanf("%d", &input);
+
+    if (input != 0)
+    {
+        char *filename = "tasksData.txt";
+        deleteLine(filename, input);
+    }
+
+    printf("Press any key to return...");
     getch();
 }
 
@@ -410,13 +492,12 @@ void addTasks()
     printf("Add Task: ");
     scanf(" %[^\n]", addTasks);
 
-    FILE *taskData, *completed_task;
+    FILE *taskData;
     taskData = fopen("tasksData.txt", "a");
-    completed_task = fopen("completedTask.txt", "a");
+
     fprintf(taskData, "=-> %s\n", addTasks);
-    fprintf(completed_task, "=-> %s\n", addTasks);
+
     fclose(taskData);
-    fclose(completed_task);
 }
 
 void resetTasks()
@@ -440,7 +521,7 @@ void completedTasks()
 
     while ((tasksData = fgetc(tasks)) != EOF)
     {
-        printf("%c", tasksData);
+        printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, tasksData);
     }
     fclose(tasks);
 
@@ -454,7 +535,7 @@ void Tasks(int *option)
     system("cls");
     char menuName[] = "Tasks";
     int numItems = 5;
-    char *mainMenuItems[5] = {"1. View All Tasks", "2. Add Task", "3. Reset Tasks", "4. Completed Tasks", "5. Home Page"};
+    char *mainMenuItems[5] = {ANSI_COLOR_BLUE "1. View All Tasks", ANSI_COLOR_CYAN "2. Add Task", ANSI_COLOR_GREEN "3. Reset Tasks", ANSI_COLOR_MAGENTA "4. Completed Tasks", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
 
     int optionValue;
     selective_menu(&optionValue, mainMenuItems, numItems, menuName);
@@ -528,7 +609,7 @@ void showEvent()
 
     while ((dataFromEvent = fgetc(showEvents)) != EOF)
     {
-        printf("%c", dataFromEvent);
+        printf(ANSI_COLOR_YELLOW "%c" ANSI_COLOR_RESET, dataFromEvent);
     }
 
     fclose(showEvents);
@@ -554,9 +635,9 @@ int GetStartingDay(int year)
 void Calender(int *option)
 {
     system("cls");
-    char menuName[] = "Calender";
+    char menuName[] = ANSI_COLOR_RESET "Calender";
     int numItems = 5;
-    char *mainMenuItems[5] = {"1. Calender Map", "2. All Events", "3. Add Events", "4. Clear Events", "5. Home Page"};
+    char *mainMenuItems[5] = {ANSI_COLOR_GREEN "1. Calender Map", ANSI_COLOR_CYAN "2. All Events", ANSI_COLOR_BLUE "3. Add Events", ANSI_COLOR_MAGENTA "4. Clear Events", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
 
     int optionValue;
     selective_menu(&optionValue, mainMenuItems, numItems, menuName);
@@ -581,12 +662,12 @@ void Calender(int *option)
 
         startingDay = GetStartingDay(year);
         printf(" |  ----     Calender      -----  |\n");
-        printf("|-------[Current Year: %d]-------|\n", year);
+        printf(ANSI_COLOR_GREEN "|-------[Current Year: %d]-------|\n" ANSI_COLOR_RESET, year);
 
         for (int month = 0; month < 12; month++)
         {
-            printf("\n\n---------- %s, %d----------\n", months[month], year);
-            printf("  Sun  Mon  Tue  Wed Thurs Fri Sat \n");
+            printf(ANSI_COLOR_YELLOW "\n\n---------- %s, %d----------\n" ANSI_COLOR_RESET, months[month], year);
+            printf(ANSI_COLOR_CYAN "  Sun  Mon  Tue  Wed Thurs Fri Sat \n" ANSI_COLOR_RESET);
 
             for (weekDay = 0; weekDay < startingDay; weekDay++)
             {
@@ -595,7 +676,7 @@ void Calender(int *option)
 
             for (int day = 1; day <= monthDays[month]; day++)
             {
-                printf("%5d", day);
+                printf(ANSI_COLOR_BLUE "%5d" ANSI_COLOR_RESET, day);
                 if (++weekDay > 6)
                 {
                     printf("\n");
@@ -604,6 +685,10 @@ void Calender(int *option)
                 startingDay = weekDay;
             }
         }
+
+        time_t currentTime = time(NULL);
+        struct tm *localTime = localtime(&currentTime);
+        printf(ANSI_COLOR_MAGENTA "\n\nDate: %02d | %02d | %04d\n" ANSI_COLOR_RESET, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900);
 
         printf("\n\nPress any key to continue...\n");
         getch();
@@ -640,6 +725,9 @@ void Calender(int *option)
 
 void mindTwisterQuestions(int maxValue, int minValue)
 {
+    time_t currentTime = time(NULL);
+    struct tm *localTime = localtime(&currentTime);
+
     int number_1, number_2, ans, optionvalue;
     int mark = 0;
 
@@ -652,8 +740,9 @@ void mindTwisterQuestions(int maxValue, int minValue)
         switch (optionvalue)
         {
         case 1:
-            printf("%d. %d + %d = ?\n", i, number_1, number_2);
-            printf("=> ");
+
+            printf(ANSI_COLOR_MAGENTA "%d. %d + %d = ?\n", i, number_1, number_2);
+            printf("=> " ANSI_COLOR_RESET);
             scanf("%d", &ans);
             if (ans == number_1 + number_2)
             {
@@ -661,8 +750,8 @@ void mindTwisterQuestions(int maxValue, int minValue)
             }
             break;
         case 2:
-            printf("%d. %d - %d = ?\n", i, number_1, number_2);
-            printf("=> ");
+            printf(ANSI_COLOR_GREEN "%d. %d - %d = ?\n", i, number_1, number_2);
+            printf("=> " ANSI_COLOR_RESET);
             scanf("%d", &ans);
             if (ans == number_1 - number_2)
             {
@@ -670,8 +759,8 @@ void mindTwisterQuestions(int maxValue, int minValue)
             }
             break;
         case 3:
-            printf("%d. %d x %d = ?\n", i, number_1, number_2);
-            printf("=> ");
+            printf(ANSI_COLOR_RED "%d. %d x %d = ?\n", i, number_1, number_2);
+            printf("=> " ANSI_COLOR_RESET);
             scanf("%d", &ans);
             if (ans == number_1 * number_2)
             {
@@ -684,10 +773,10 @@ void mindTwisterQuestions(int maxValue, int minValue)
     }
 
     FILE *progression = fopen("progress.txt", "a");
-    fprintf(progression, "Total Mark: %d/5\n", mark);
+    fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d - %02d - %02d\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
     fclose(progression);
 
-    printf("Total Mark: %d/5\n", mark);
+    printf(ANSI_COLOR_YELLOW "Total Mark: %d/5\n" ANSI_COLOR_RESET, mark);
     printf("Press any key to continue...");
     getch();
 }
@@ -701,19 +790,20 @@ void progress()
 
     while ((progressData = fgetc(progressDataFile)) != EOF)
     {
-        printf("%c", progressData);
+        printf(ANSI_COLOR_YELLOW "%c", progressData);
     }
+
     fclose(progressDataFile);
 
-    printf("\nPress any key to continue...");
+    printf(ANSI_COLOR_RESET "\nPress any key to continue...");
     getch();
 }
 
 void MindTwister(int *option)
 {
-    char menuName[] = "MindTwister";
+    char menuName[] = ANSI_COLOR_RESET "MindTwister";
     int numItems = 5;
-    char *mainMenuItems[5] = {"1. Easy", "2. Hard", "3. Champion", "4. Progress", "5. Home Page"};
+    char *mainMenuItems[5] = {ANSI_COLOR_CYAN "1. Easy", ANSI_COLOR_BLUE "2. Hard", ANSI_COLOR_MAGENTA "3. Champion", ANSI_COLOR_GREEN "4. Progress", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
 
     int optionValue;
     selective_menu(&optionValue, mainMenuItems, numItems, menuName);
