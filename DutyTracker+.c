@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-// version 2.0
+// version 2.1
 
 // Define ANSI escape codes for text colors
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -355,7 +355,7 @@ void studyTrackerMenu(int *option)
 {
     char menuName[] = ANSI_COLOR_RESET "Study Tracker";
     int numItems = 5;
-    char *mainMenuItems[5] = {ANSI_COLOR_CYAN "1. Track Study", ANSI_COLOR_GREEN "2. Tracking Data", ANSI_COLOR_MAGENTA "3. Reset Tracking Data", ANSI_COLOR_BLUE "4. History", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
+    char *mainMenuItems[5] = {ANSI_COLOR_CYAN "1. Start Tracking", ANSI_COLOR_GREEN "2. Tracking Details", ANSI_COLOR_MAGENTA "3. Reset Tracking Data", ANSI_COLOR_BLUE "4. History", ANSI_COLOR_YELLOW "5. Home Page" ANSI_COLOR_RESET};
 
     int optionValue;
     selective_menu(&optionValue, mainMenuItems, numItems, menuName);
@@ -420,14 +420,13 @@ void deleteLine(char *filename, int lineToDelete)
     while (fgets(buffer, sizeof(buffer), originalFile) != NULL)
     {
         lineNum++;
+
         if (lineNum == lineToDelete)
         {
-            // Write the deleted line to the file storing deleted lines
             fprintf(deletedLinesFile, "%s\n", buffer);
         }
         else
         {
-            // Write all other lines to the temporary file
             fputs(buffer, tempFile);
         }
     }
@@ -440,18 +439,18 @@ void deleteLine(char *filename, int lineToDelete)
     // Remove the original file
     if (remove(filename) != 0)
     {
-        printf("Error: Unable to delete original file.\n");
+        printf("Unable to delete original file.\n");
         return;
     }
 
     // Rename the temporary file to the original filename
     if (rename("temp.txt", filename) != 0)
     {
-        printf("Error: Unable to rename temporary file.\n");
+        printf("Unable to rename temporary file.\n");
         return;
     }
 
-    printf("Line %d deleted successfully.\n", lineToDelete);
+    printf("Task %d completed.\n", lineToDelete);
 }
 
 void allTasks()
