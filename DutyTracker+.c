@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-// version 2.1
+// version 2.2
 
 // Define ANSI escape codes for text colors
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -166,7 +166,7 @@ void selective_menu(int *options, char *items[], int numItems, char *menuName)
     {
         system("cls");
 
-        printf(ANSI_COLOR_RESET "\n|  ---- %s -----  |\n\nUse UP, DOWN & ENTER key to select.\n\n", menuName);
+        printf("\n|  ---- %s -----  |\n\nUse UP, DOWN & ENTER key to select.\n\n", menuName);
         printf("************************************\n");
 
         for (int i = 0; i < numItems; i++)
@@ -580,11 +580,13 @@ void addEvent()
     printf("Event Name: ");
     scanf(" %[^\n]", eventName);
 
-    printf("Event Date: ");
+    printf("Event Date->\n");
+
+    printf("Day: ");
     scanf("%d", &eventDate);
-    printf("Event Month: ");
+    printf("Month: ");
     scanf("%d", &eventMonth);
-    printf("Event Year: ");
+    printf("Year: ");
     scanf("%d", &eventYear);
 
     fflush(stdin);
