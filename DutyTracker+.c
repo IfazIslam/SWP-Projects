@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-// version 2.2
+// version 3.0
 
 // Define ANSI escape codes for text colors
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -38,7 +38,7 @@ void showEvent();
 void clearEvents();
 int GetStartingDay(int year);
 void Calender(int *option);
-void mindTwisterQuestions(int maxValue, int minValue);
+void mindTwisterQuestions(int maxValue, int minValue, int modeCheck);
 void progress();
 void MindTwister(int *option);
 void deleteLine(char *filename, int lineToDelete);
@@ -57,15 +57,16 @@ int main()
     inputMainLogo = getch();
 
     int Option; // For selecting in the main menu
-    if (inputMainLogo == 'q')
-    {
-        printf("\nExit...");
-        return 0;
-    }
+
     if (inputMainLogo == '\r')
     {
         // Main Menu
         homePage(&Option);
+    }
+    else
+    {
+        printf("\nExit...");
+        return 0;
     }
 
     // Option Page
@@ -724,13 +725,15 @@ void Calender(int *option)
 
 // ----------------- Mind Twister ------------------------
 
-void mindTwisterQuestions(int maxValue, int minValue)
+void mindTwisterQuestions(int maxValue, int minValue, int modeCheck)
 {
     time_t currentTime = time(NULL);
     struct tm *localTime = localtime(&currentTime);
 
     int number_1, number_2, ans, optionvalue;
     int mark = 0;
+
+    char marksArray[6][100];
 
     for (int i = 1; i <= 5; i++)
     {
@@ -741,13 +744,17 @@ void mindTwisterQuestions(int maxValue, int minValue)
         switch (optionvalue)
         {
         case 1:
-
             printf(ANSI_COLOR_MAGENTA "%d. %d + %d = ?\n", i, number_1, number_2);
             printf("=> " ANSI_COLOR_RESET);
             scanf("%d", &ans);
             if (ans == number_1 + number_2)
             {
                 mark++;
+                sprintf(marksArray[i], "%d |R|", ans);
+            }
+            else
+            {
+                sprintf(marksArray[i], "%d |X|", ans);
             }
             break;
         case 2:
@@ -757,6 +764,11 @@ void mindTwisterQuestions(int maxValue, int minValue)
             if (ans == number_1 - number_2)
             {
                 mark++;
+                sprintf(marksArray[i], "%d |R|", ans);
+            }
+            else
+            {
+                sprintf(marksArray[i], "%d |X|", ans);
             }
             break;
         case 3:
@@ -766,6 +778,11 @@ void mindTwisterQuestions(int maxValue, int minValue)
             if (ans == number_1 * number_2)
             {
                 mark++;
+                sprintf(marksArray[i], "%d |R|", ans);
+            }
+            else
+            {
+                sprintf(marksArray[i], "%d |X|", ans);
             }
             break;
         default:
@@ -774,10 +791,44 @@ void mindTwisterQuestions(int maxValue, int minValue)
     }
 
     FILE *progression = fopen("progress.txt", "a");
-    fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d - %02d - %02d\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
-    fclose(progression);
 
-    printf(ANSI_COLOR_YELLOW "Total Mark: %d/5\n" ANSI_COLOR_RESET, mark);
+    if (modeCheck == 0)
+    {
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [EASY]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fclose(progression);
+    }
+    else if (modeCheck == 1)
+    {
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [HARD]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fclose(progression);
+    }
+    else if (modeCheck == 2)
+    {
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [CHAMPION]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fclose(progression);
+    }
+
+    printf("\n");
+
+    for (int i = 1; i <= 5; i++)
+    {
+        int length = strlen(marksArray[i]);
+        if (length > 0)
+        {
+            char lastChar = marksArray[i][length - 2];
+
+            if (lastChar == 'R')
+            {
+                printf(ANSI_COLOR_BLUE "Question %d result: %s\n", i, marksArray[i]);
+            }
+            else if (lastChar == 'X')
+            {
+                printf(ANSI_COLOR_RED "Question %d result: %s\n", i, marksArray[i]);
+            }
+        }
+    }
+
+    printf(ANSI_COLOR_YELLOW "\nTotal Mark: %d/5\n" ANSI_COLOR_RESET, mark);
     printf("Press any key to continue...");
     getch();
 }
@@ -813,15 +864,15 @@ void MindTwister(int *option)
     switch (*option)
     {
     case 0:
-        mindTwisterQuestions(100, 1);
+        mindTwisterQuestions(100, 1, 0);
         MindTwister(option);
         break;
     case 1:
-        mindTwisterQuestions(1000, 50);
+        mindTwisterQuestions(1000, 50, 1);
         MindTwister(option);
         break;
     case 2:
-        mindTwisterQuestions(1000000, 1000);
+        mindTwisterQuestions(1000000, 1000, 2);
         MindTwister(option);
         break;
     case 3:
