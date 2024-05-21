@@ -794,17 +794,17 @@ void mindTwisterQuestions(int maxValue, int minValue, int modeCheck)
 
     if (modeCheck == 0)
     {
-        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [EASY]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time -> %02d:%02d:%02d [EASY]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
         fclose(progression);
     }
     else if (modeCheck == 1)
     {
-        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [HARD]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time -> %02d:%02d:%02d [HARD]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
         fclose(progression);
     }
     else if (modeCheck == 2)
     {
-        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time: %02d : %02d : %02d [CHAMPION]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
+        fprintf(progression, "Total Mark: %d/5 -- Date: %02d | %02d | %02d -- Time -> %02d:%02d:%02d [CHAMPION]\n", mark, localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900, localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
         fclose(progression);
     }
 
