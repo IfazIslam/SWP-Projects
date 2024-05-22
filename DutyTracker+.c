@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-// version 3.0
+// version 3.1
 
 // Define ANSI escape codes for text colors
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -158,7 +158,6 @@ void mainLogo()
 // selective code base
 void selective_menu(int *options, char *items[], int numItems, char *menuName)
 {
-    char designBar[] = "***********************************";
 
     char input;
     int select = 0;
@@ -251,7 +250,7 @@ void studyTracker()
     scanf("%d", &sec);
     getchar();
 
-    if (sec >= 5)
+    if (sec >= 5 || min >= 1 || hr >= 1)
     {
         printf("Enter Label: ");
         gets(LabelName);
@@ -489,15 +488,22 @@ void addTasks()
     printf(" |  ----     Add Task      -----  |\n");
 
     char addTasks[200];
-    printf("Add Task: ");
-    scanf(" %[^\n]", addTasks);
+ 
+    while(1){
+        printf("Add Task (0 to exit): ");
+        scanf(" %[^\n]", addTasks);
 
-    FILE *taskData;
-    taskData = fopen("tasksData.txt", "a");
+        if (strcmp(addTasks, "0") == 0) {
+            break;
+        }
+        FILE *taskData;
+        taskData = fopen("tasksData.txt", "a");
 
-    fprintf(taskData, "=-> %s\n", addTasks);
+        fprintf(taskData, "=-> %s\n", addTasks);
 
-    fclose(taskData);
+        fclose(taskData);
+    }
+
 }
 
 void resetTasks()
